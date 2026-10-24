@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
-        <h2 class="headline font-weight-bold mb-3">
+        <h2 class="text-h5 font-weight-bold mb-3">
           {{ title }}
         </h2>
 
@@ -10,28 +10,39 @@
         <!-- 7 x 6 -->
         <v-container>
           <v-row no-gutters>
-            <v-col v-for="x in 7" :key="x" :order="x">
+            <v-col
+              v-for="x in 7"
+              :key="x"
+              :order="x"
+            >
               <v-responsive
-                :aspect-ratio="1 / 1"
-                class="square"
                 v-for="y in yArray"
                 :key="y"
-                v-on:click="handleSquareClick(x, y)"
+                :aspect-ratio="1"
+                class="square"
+                @click="handleSquareClick(x, y)"
               >
                 <div
                   v-show="showInGameBoard(x, y)"
-                  v-bind:class="`${getSquareInfo(x, y).color}`"
-                ></div>
+                  :class="`piece-${getSquareInfo(x, y).color}`"
+                />
               </v-responsive>
             </v-col>
           </v-row>
         </v-container>
 
-        <v-snackbar v-model="snackbar" timeout="3000">
+        <v-snackbar
+          v-model="snackbar"
+          :timeout="3000"
+        >
           {{ snackbarText }}
 
-          <template v-slot:action="{ attrs }">
-            <v-btn color="red" text v-bind="attrs" @click="snackbar = false">
+          <template #actions>
+            <v-btn
+              color="red"
+              variant="text"
+              @click="snackbar = false"
+            >
               Close
             </v-btn>
           </template>
@@ -42,7 +53,7 @@
 </template>
 
 <script>
-import _ from "lodash";
+const startCase = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 export default {
   name: "Connect4Board",
   data: () => ({
@@ -61,7 +72,7 @@ export default {
   methods: {
     createGameStructure() {
       this.boardData = [];
-      this.title = `${_.startCase(this.currentPlayersColor)}'s Turn!`;
+      this.title = `${startCase(this.currentPlayersColor)}'s Turn!`;
 
       for (let x = 1; x <= 7; x++) {
         for (let y = 1; y <= 6; y++) {
@@ -74,9 +85,7 @@ export default {
       }
     },
     getSquareInfo(x, y) {
-      return _.filter(this.boardData, function (o) {
-        return o.x === x && o.y === y;
-      })[0];
+      return this.boardData.find((o) => o.x === x && o.y === y);
     },
     setSquareInfo(x, y) {
       for (let square of this.boardData) {
@@ -118,7 +127,7 @@ export default {
       } else {
         this.currentPlayersColor = "blue";
       }
-      this.title = `${_.startCase(this.currentPlayersColor)}'s Turn!`;
+      this.title = `${startCase(this.currentPlayersColor)}'s Turn!`;
     },
     checkWinner(square) {
       this.determiningWinner = true;
@@ -213,20 +222,11 @@ export default {
             upperLeftDiagonalCount === 4 ||
             lowerLeftDiagonalCount === 4
           ) {
-            console.log(upperRightDiagonalCount);
-            console.log(lowerRightDiagonalCount);
-            console.log(upperLeftDiagonalCount);
-            console.log(lowerLeftDiagonalCount);
-
             isDiagonalWinner = true;
           }
         }
       }
       if (horizontalCount === 4 || verticalCount === 4 || isDiagonalWinner) {
-        console.log("====");
-        console.log(horizontalCount);
-        console.log(verticalCount);
-        console.log(isDiagonalWinner);
         this.determiningWinner = false;
         return true;
       }
@@ -235,8 +235,9 @@ export default {
     },
     determineNoWinner() {
       for (let s of this.boardData) {
-        if (s.color === "none");
-        return false;
+        if (s.color === "none") {
+          return false;
+        }
       }
       return true;
     },
@@ -259,7 +260,7 @@ export default {
       //TODO move to dialog
       if (this.isWinner) {
         this.openSnackbar(
-          `${_.startCase(this.currentPlayersColor)} is the winner!`
+          `${startCase(this.currentPlayersColor)} is the winner!`
         );
         return;
       }
@@ -293,13 +294,13 @@ export default {
   border-color: black;
   border-style: solid;
 }
-.blue {
-  color: blue;
+.piece-blue {
+  background-color: blue;
   height: 100%;
   border-radius: 50%;
 }
-.red {
-  color: red;
+.piece-red {
+  background-color: red;
   height: 100%;
   border-radius: 50%;
 }

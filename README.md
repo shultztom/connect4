@@ -1,24 +1,28 @@
 # connect4-vue
 
+Connect 4 built with Vue 3, Vuetify 4 and Vite. Requires Node 24 (`nvm use`).
+
 ## Project setup
 ```
-yarn install
+npm ci
 ```
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+npm run dev
 ```
 
 ### Compiles and minifies for production
 ```
-yarn build
+npm run build
 ```
 
-### Lints and fixes files
+### Lints
 ```
-yarn lint
+npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Deployment
+Pushing to `master` builds and deploys to GitHub Pages via
+`.github/workflows/deploy.yml`. In the repo settings, set
+Pages → Source to "GitHub Actions".
