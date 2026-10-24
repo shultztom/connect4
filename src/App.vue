@@ -1,7 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <span class="mr-2">Connect 4!</span>
+    <v-app-bar
+      color="primary"
+      theme="dark"
+    >
+      <v-app-bar-title>Connect 4!</v-app-bar-title>
     </v-app-bar>
 
     <v-main>
@@ -10,18 +13,6 @@
   </v-app>
 </template>
 
-<script>
-import Connect4Board from "./components/Connect4Board";
-
-export default {
-  name: "App",
-
-  components: {
-    Connect4Board,
-  },
-
-  data: () => ({
-    //
-  }),
-};
+<script setup>
+import Connect4Board from './components/Connect4Board.vue'
 </script>
